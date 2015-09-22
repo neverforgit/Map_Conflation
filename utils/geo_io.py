@@ -1,20 +1,34 @@
 __author__ = 'Andrew A Campbell'
 
 import fiona.collection
-import Shapely.geometry
+import pandas as pd
+import pyproj
+import shapely.geometry
 
-def points_from_csv(file_path, epsg=None, lat="latitude", lon="longitude"):
+def points_from_csv(file_path, epsg_from=None, epsg_to=None, x_coord="longitude", y_coord="latitude", id="id"):
     """
     Creates a list of Shapely points from a csv file
     :param file_path: (str) Path to csv file to read
-    :param epsg: (str) EPSG code for coordinate reference system to project points to
-    :param lat:
-    :param lon:
-    :return:
+    :param epsg_from: (str) EPSG code for coordinate reference system that csv is originally in.
+    :param epsg_to: (str) EPSG code for coordinate reference system to project points to.
+    :param x_coord: (str) Name of column containing the y-coordinates)
+    :param y_coord: (str) Name of column containing the x-coordinates.
+    :param id: (str) Name of the column containing the unique ID for each point.
+    :return: (df) Pandas dataframe.
+    shapely Points as values. The values of the second are lists of attributes.
     """
 
     # Open the file and read the lines into points
-    with fiona.collection(file_path) as c:
+    df = pd.read_csv(file_path, header=0)
+    df['points'] = df.apply(lambda x: shapely.geometry.Point(float(x[x_coord]), float(x[y_coord])), axis=1)
+    if not epsg_to:
+        return df
+    else:
+        p1 = pyproj.Proj(epsg_from)
+        p2 = pyproj.Proj(epsg_to)
+
+        new_points = df['points'].apply(lambda p: pyproj.transform(p1, p2, p.x, p.y))
+
 
 
     # Project points, if epsg != None
