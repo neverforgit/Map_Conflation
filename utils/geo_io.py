@@ -14,29 +14,24 @@ def points_from_csv(file_path, epsg_from=None, epsg_to=None, x_coord="longitude"
     :param x_coord: (str) Name of column containing the y-coordinates)
     :param y_coord: (str) Name of column containing the x-coordinates.
     :param id: (str) Name of the column containing the unique ID for each point.
-    :return: (df) Pandas dataframe.
-    shapely Points as values. The values of the second are lists of attributes.
+    :return: (df) Pandas dataframe with attributes and one column containing the shapely Points as values.
     """
 
     # Open the file and read the lines into points
     df = pd.read_csv(file_path, header=0)
     df['points'] = df.apply(lambda x: shapely.geometry.Point(float(x[x_coord]), float(x[y_coord])), axis=1)
+    # Project points, if epsg != None
     if not epsg_to:
         return df
     else:
-        p1 = pyproj.Proj(epsg_from)
-        p2 = pyproj.Proj(epsg_to)
+        p1 = pyproj.Proj(init=epsg_from)
+        p2 = pyproj.Proj(init=epsg_to)
+        df['points'] =  df['points'].apply(lambda p: pyproj.transform(p1, p2, p.x, p.y))
+    return df
 
-        new_points = df['points'].apply(lambda p: pyproj.transform(p1, p2, p.x, p.y))
-
-
-
-    # Project points, if epsg != None
 
 def read_shp():
-
+    None
 
 def match_projections():
-
-
-
+    None
