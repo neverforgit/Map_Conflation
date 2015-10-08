@@ -30,7 +30,7 @@ def make_chunk_indices(data, chunk_size):
         return (0, num_records)
 
 
-def makeSpatialDF(path, method='fiona', chunk_size=None, attr_filter=None):
+def make_spatial_df(path, method='fiona', chunk_size=None, attr_filter=None):
     """
     path: a path to a shapefile
     method: One of the strings, "fiona", "pyshp", "pysal", or 'ogr'. This specifies which module has been imported and should

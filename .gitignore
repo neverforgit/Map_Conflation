@@ -8,10 +8,14 @@
 data/
 ./data/
 **/data*
-
-output/
 ./output/
 **/output**
+
+### Ignore my notes.txt file
+notes.txt
+
+## Ignore temp and garbage folders
+old/
 
 ### Ignore my actual config files
 config_*.ini
