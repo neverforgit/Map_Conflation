@@ -1,6 +1,3 @@
-__author__ = 'Andrew A Campbell'
-# These are a general set of tools for input/output of spatial data.
-
 import fiona.collection
 import geopandas as gpd
 import pandas as pd
@@ -9,6 +6,8 @@ import shapely.geometry
 
 import geotools
 
+__author__ = 'Andrew A Campbell'
+# These are a general set of tools for input/output of spatial data.
 
 def points_from_csv(file_path, epsg_from=None, epsg_to=None, x_coord="longitude", y_coord="latitude", ident=None):
     """
