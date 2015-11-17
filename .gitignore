@@ -22,7 +22,7 @@ config_*.ini
 
 ### Ignore executables in \bin (execpt for test.py and time_df_growth)
 #bin/*.py
-!bin/test.py
+#!bin/test.py
 
 ### Ignore Pycharm project files
 .idea/
